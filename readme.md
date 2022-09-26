@@ -1,39 +1,53 @@
-[![SFML logo](https://www.sfml-dev.org/images/logo.png)](https://www.sfml-dev.org)
+# SFML 2.5.1
+WIP port of SFML 2.5.1 to AmigaOS4.
 
-# SFML — Simple and Fast Multimedia Library
+Currently only System, Audio and Network modules are working. Window and Graphics in progress.
 
-SFML is a simple, fast, cross-platform and object-oriented multimedia API. It provides access to windowing, graphics, audio and network. It is written in C++, and has bindings for various languages such as C, .Net, Ruby, Python.
+To build you need:
 
-## Authors
+1. latest cross-compiler (GCC 11.3.0 currently): https://github.com/sba1/adtools
+2. latest SDK (53.34 currently): https://hyperion-entertainment.com/index.php/downloads 
+3. latest Andrea's clib2 (beta08 currently): https://github.com/afxgroup/clib2 (with rebuilded libstdc++ as well)
+4. 3d party libs compiled for clib2 : libopenal, libvorbis/libvorbisfile/libvorbisenc/libogg & libflac
 
-  - Laurent Gomila — main developer (laurent@sfml-dev.org)
-  - Marco Antognini — OS X developer (hiura@sfml-dev.org)
-  - Jonathan De Wachter — Android developer (dewachter.jonathan@gmail.com)
-  - Jan Haller (bromeon@sfml-dev.org)
-  - Stefan Schindler (tank@sfml-dev.org)
-  - Lukas Dürrenberger (eXpl0it3r@sfml-dev.org)
-  - binary1248 (binary1248@hotmail.com)
-  - Artur Moreira (artturmoreira@gmail.com)
-  - Mario Liebisch (mario@sfml-dev.org)
-  - And many other members of the SFML community
 
-## Download
+Download repo and:
 
-You can get the latest official release on [SFML's website](https://www.sfml-dev.org/download.php). You can also get the current development version from the [Git repository](https://github.com/SFML/SFML).
+```
+cd repo
+mkdir build
+cd build
 
-## Install
+cmake \
+-DCMAKE_SYSTEM_NAME=Generic \
+-DCMAKE_SYSTEM_VERSION=1 \
+-DCMAKE_BUILD_TYPE=Release \
+-DBUILD_SHARED_LIBS=NO \
+-DSFML_BUILD_AUDIO=YES \
+-DSFML_BUILD_NETWORK=YES \
+-DSFML_BUILD_GRAPHICS=NO \
+-DSFML_BUILD_WINDOW=NO \
+-DSFML_MISC_INSTALL_PREFIX="./" \
+-DCMAKE_C_FLAGS="-mcrt=clib2" \
+-DCMAKE_CXX_FLAGS="-mcrt=clib2" \
+-DCMAKE_C_COMPILER="/usr/local/amiga/bin/ppc-amigaos-gcc" \
+-DCMAKE_CXX_COMPILER="/usr/local/amiga/bin/ppc-amigaos-g++" \
+-DCMAKE_LINKER="/usr/local/amiga/bin/ppc-amigaos-ld" \
+-DCMAKE_AR="/usr/local/amiga/bin/ppc-amigaos-ar" \
+-DCMAKE_RANLIB="/usr/local/amiga/bin/ppc-amigaos-ranlib" \
+-DCMAKE_FIND_ROOT_PATH="/usr/local/amiga/ppc-amigaos/" \
+-DOPENAL_INCLUDE_DIR="/usr/local/amiga/ppc-amigaos/SDK/Local/clib2/include/AL" \
+-DOPENAL_LIBRARY="/usr/local/amiga/ppc-amigaos/SDK/Local/clib2/lib/libopenal.a" \
+-DVORBIS_INCLUDE_DIR="/usr/local/amiga/ppc-amigaos/SDK/Local/common/include/vorbis" \
+-DVORBIS_LIBRARY="/usr/local/amiga/ppc-amigaos/SDK/Local/clib2/lib/libvorbis.a" \
+-DVORBISFILE_LIBRARY="/usr/local/amiga/ppc-amigaos/SDK/Local/clib2/lib/libvorbisfile.a" \
+-DOGG_INCLUDE_DIR="/usr/local/amiga/ppc-amigaos/SDK/Local/common/include/ogg" \
+-DOGG_LIBRARY="/usr/local/amiga/ppc-amigaos/SDK/Local/clib2/lib/libogg.a" \
+-DVORBISENC_LIBRARY="/usr/local/amiga/ppc-amigaos/SDK/Local/clib2/lib/libvorbisenc.a" \
+-DFLAC_INCLUDE_DIR="/usr/local/amiga/ppc-amigaos/SDK/Local/common/include/flac" \
+-DFLAC_LIBRARY="/usr/local/amiga/ppc-amigaos/SDK/Local/clib2/lib/flac.a" \
+-Wno-dev \
+..
 
-Follow the instructions of the [tutorials](https://www.sfml-dev.org/tutorials/), there is one for each platform/compiler that SFML supports.
-
-## Learn
-
-There are several places to learn SFML:
-
-  * The [official tutorials](https://www.sfml-dev.org/tutorials/)
-  * The [online API documentation](https://www.sfml-dev.org/documentation/)
-  * The [community wiki](https://github.com/SFML/SFML/wiki/)
-  * The [community forum](https://en.sfml-dev.org/forums/) ([French](https://fr.sfml-dev.org/forums/))
-
-## Contribute
-
-SFML is an open-source project, and it needs your help to go on growing and improving. If you want to get involved and suggest some additional features, file a bug report or submit a patch, please have a look at the [contribution guidelines](https://www.sfml-dev.org/contribute.php).
+make -j4
+```

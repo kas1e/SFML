@@ -98,6 +98,10 @@
 
     #endif
 
+#elif defined(__amigaos4__)
+
+        #define SFML_SYSTEM_LINUX
+
 #else
 
     // Unsupported system
